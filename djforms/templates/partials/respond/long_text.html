@@ -1,0 +1,7 @@
+<div class="mb-3">
+    <textarea class="form-control" rows="3"
+              placeholder="Answer"
+              aria-label="Answer"
+              name="answers[{{ question.id }}]"
+              {% if question.is_required %}required{% endif %}></textarea>
+</div>

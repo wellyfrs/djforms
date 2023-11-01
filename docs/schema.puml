@@ -1,0 +1,106 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class auth_group {
+   name: varchar(150)
+   id: integer
+}
+class auth_permission {
+   content_type_id: integer
+   codename: varchar(100)
+   name: varchar(255)
+   id: integer
+}
+class django_content_type {
+   app_label: varchar(100)
+   model: varchar(100)
+   id: integer
+}
+class djforms_answer {
+   text: text
+   question_id: bigint
+   response_id: bigint
+   id: integer
+}
+class djforms_answer_choices {
+   answer_id: bigint
+   option_id: bigint
+   id: integer
+}
+class djforms_form {
+   title: varchar(256)
+   description: varchar(1024)
+   created_at: datetime
+   updated_at: datetime
+   created_by_id: bigint
+   id: integer
+}
+class djforms_option {
+   text: varchar(256)
+   order: integer
+   question_id: bigint
+   id: integer
+}
+class djforms_question {
+   text: varchar(256)
+   type: varchar(48)
+   is_required: bool
+   order: integer
+   form_id: bigint
+   id: integer
+}
+class djforms_response {
+   created_at: datetime
+   form_id: bigint
+   user_id: bigint
+   id: integer
+}
+class djforms_settings {
+   is_open: bool
+   authenticated_response: bool
+   multiple_response: bool
+   form_id: bigint
+}
+class djforms_user {
+   password: varchar(128)
+   last_login: datetime
+   is_superuser: bool
+   username: varchar(150)
+   first_name: varchar(150)
+   last_name: varchar(150)
+   email: varchar(254)
+   is_staff: bool
+   is_active: bool
+   date_joined: datetime
+   id: integer
+}
+class djforms_user_groups {
+   user_id: bigint
+   group_id: integer
+   id: integer
+}
+class djforms_user_user_permissions {
+   user_id: bigint
+   permission_id: integer
+   id: integer
+}
+
+auth_permission                -[#595959,plain]-^  django_content_type           : "content_type_id:id"
+djforms_answer                 -[#595959,plain]-^  djforms_question              : "question_id:id"
+djforms_answer                 -[#595959,plain]-^  djforms_response              : "response_id:id"
+djforms_answer_choices         -[#595959,plain]-^  djforms_answer                : "answer_id:id"
+djforms_answer_choices         -[#595959,plain]-^  djforms_option                : "option_id:id"
+djforms_form                   -[#595959,plain]-^  djforms_user                  : "created_by_id:id"
+djforms_option                 -[#595959,plain]-^  djforms_question              : "question_id:id"
+djforms_question               -[#595959,plain]-^  djforms_form                  : "form_id:id"
+djforms_response               -[#595959,plain]-^  djforms_form                  : "form_id:id"
+djforms_response               -[#595959,plain]-^  djforms_user                  : "user_id:id"
+djforms_settings               -[#595959,plain]-^  djforms_form                  : "form_id:id"
+djforms_user_groups            -[#595959,plain]-^  auth_group                    : "group_id:id"
+djforms_user_groups            -[#595959,plain]-^  djforms_user                  : "user_id:id"
+djforms_user_user_permissions  -[#595959,plain]-^  auth_permission               : "permission_id:id"
+djforms_user_user_permissions  -[#595959,plain]-^  djforms_user                  : "user_id:id"
+@enduml

@@ -1,0 +1,46 @@
+{% extends "djforms/layout.html" %}
+
+{% block body %}
+<div class="py-4">
+    <div id="container" class="container-fluid col-xl-6 col-lg-7 col-md-8">
+        <h2 class="mb-4">My forms</h2>
+
+        {% if page_obj.paginator.count > 0 %}
+
+        {% for form in page_obj %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ form.title }}</h5>
+
+                <p class="card-text">
+                    <small class="text-body-secondary">Created at {{ form.created_at }}</small>
+                </p>
+
+                <div class="form-actions">
+                    <a class="btn btn-sm btn-outline-primary" href="{% url 'form_responses' form.id %}">
+                        <span class="badge bg-primary">{{ form.responses }}</span> responses
+                    </a>
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'respond' form.id %}">
+                        <i class="bi bi-eye"></i>
+                        View
+                    </a>
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'edit' form.id %}">
+                        <i class="bi bi-pencil"></i>
+                        Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% include 'partials/edit/backend/pagination.html' %}
+
+        {% else %}
+        <a class="btn btn-lg btn-outline-primary" href="{% url 'create' %}">
+            <i class="bi bi-plus"></i>
+            Create your first form
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

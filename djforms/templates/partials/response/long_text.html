@@ -1,0 +1,4 @@
+{% load answer_question %}
+<div class="mb-3">
+    <textarea class="form-control" rows="3" aria-label="Answer" readonly disabled>{{ answers|answer_question:question }}</textarea>
+</div>

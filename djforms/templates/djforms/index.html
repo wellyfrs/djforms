@@ -1,0 +1,20 @@
+{% extends "djforms/layout.html" %}
+
+{% block body %}
+<div class="py-4">
+    <div id="container" class="container-fluid col-xl-6 col-lg-7 col-md-8">
+        <h1 class="display-6">Welcome to DjForms!</h1>
+
+        <h3 class="mt-4">Craft and personalize your forms</h3>
+        <p class="lead text-secondary">Design and tailor your forms to perfection. Choose from a variety of question types, set requirements, and add unlimited response options.</p>
+
+        <h3 class="mt-4">Share with the world</h3>
+        <p class="lead text-secondary">Spread the word and start gathering responses, whether it's from authenticated users or the broader audience.</p>
+
+        <h3 class="mt-4">Seamlessly analyze your Data</h3>
+        <p class="lead text-secondary">Effortlessly access and manage all your responses or download them in CSV format for comprehensive data analysis.</p>
+
+        <p class="mt-4"><a class="btn btn-lg btn-primary" href="{% url 'register' %}">Get started</a></p>
+    </div>
+</div>
+{% endblock %}

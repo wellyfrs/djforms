@@ -1,0 +1,19 @@
+<template id="template-radio-option">
+    <div class="question-option mb-3 d-flex align-items-start">
+        <input class="form-check-input mt-2 me-3" type="radio" readonly disabled>
+
+        <div class="me-3 flex-fill">
+            <input type="text"
+                   class="question-option-text form-control"
+                   placeholder="Option"
+                   name="option_text"
+                   required>
+            <div class="invalid-feedback">Please provide an unique option.</div>
+        </div>
+
+        <button class="btn-remove-option btn btn-sm btn-outline-secondary mt-1" disabled>
+            <i class="bi bi-trash"></i>
+            <span class="visually-hidden">Remove option</span>
+        </button>
+    </div>
+</template>

@@ -1,0 +1,14 @@
+{% load answer_question %}
+{% load answer_option %}
+{% for option in question.options.all|dictsort:'order' %}
+<div class="form-check">
+    <input class="form-check-input"
+           type="radio"
+           id="q-{{ question.id }}-o-{{ option.id }}"
+           readonly disabled
+           {% if answers|answer_question:question|answer_option:option %}
+           checked
+           {% endif %}>
+    <label class="form-check-label" for="q-{{ question.id }}-o-{{ option.id }}">{{ option.text }}</label>
+</div>
+{% endfor %}

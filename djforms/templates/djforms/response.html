@@ -1,0 +1,100 @@
+{% extends "djforms/layout.html" %}
+
+{% block body %}
+<div class="py-4">
+    <div id="container" class="container-fluid col-xl-6 col-lg-7 col-md-8">
+        <h3 class="mb-4">{{ form_response.form.title }}</h3>
+
+        <div class="mb-4">
+            <label class="form-label" for="user">User</label>
+            <input id="user" class="form-control"
+                   type="text"
+                   {% if form_response.user %}
+                   value="{{ form_response.user.username }} ({{ form_response.user.email }})"
+                   {% else %}
+                   value="Anonymous"
+                   {% endif %}
+                   readonly disabled>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label" for="timestamp">Timestamp</label>
+            <input id="timestamp" class="form-control"
+                   type="text"
+                   value="{{ form_response.created_at }}" readonly disabled>
+        </div>
+
+        <div id="question-container">
+            {% for question in form_response.form.questions.all|dictsort:'order' %}
+            <div class="question mb-4">
+                <div class="question-text">
+                    <p>{{ question.order }}. {{ question.text }}{% if question.is_required %}
+                        <span class="text-danger">*</span>{% endif %}
+                    </p>
+                </div>
+
+                <div class="question-answer">
+                    {% if question.type == "SHORT_TEXT" %}
+                    {% include 'partials/response/short_text.html' %}
+                    {% elif question.type == "LONG_TEXT" %}
+                    {% include 'partials/response/long_text.html' %}
+                    {% elif question.type == "RADIO" %}
+                    {% include 'partials/response/radio.html' %}
+                    {% elif question.type == "CHECKBOX" %}
+                    {% include 'partials/response/checkbox.html' %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between">
+            {% if form_response.user == user and form_response.form.settings.is_another_response_allowed %}
+            <a class="btn btn-outline-secondary" href="{% url 'respond' form_response.form.id %}">
+                <i class="bi bi-send"></i>
+                Submit another response
+            </a>
+            {% endif %}
+            {% if form_response.form.created_by == user %}
+            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-response-modal" type="button">
+                <i class="bi bi-trash"></i>
+                Delete
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if form_response.form.created_by == user %}
+<div class="modal fade" id="delete-response-modal" tabindex="-1" aria-labelledby="delete-response-title" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="delete-response-title">Delete response</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Permanently delete this response?</p>
+
+                <p>This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-danger" id="btn-delete-response"
+                        data-form-id="{{ form_response.form.id }}"
+                        data-response-id="{{ form_response.id }}">
+                    Delete response
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'partials/shared/toast.html' %}
+{% endif %}
+{% endblock %}
+
+{% load static %}
+{% block script %}
+<script src="{% static 'js/response/response.js' %}"></script>
+{% endblock %}

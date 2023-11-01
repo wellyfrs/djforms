@@ -1,0 +1,9 @@
+[project]
+name = "djforms"
+version = "1.0.0"
+description = "Web app to create customizable forms."
+readme = "README.md"
+maintainers = [{name = "Wellyson Freitas"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"

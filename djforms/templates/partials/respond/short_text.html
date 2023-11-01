@@ -1,0 +1,8 @@
+<div class="mb-3">
+    <input class="form-control"
+           type="text"
+           placeholder="Answer"
+           aria-label="Answer"
+           name="answers[{{ question.id }}]"
+           {% if question.is_required %}pattern=".*\S+.*" required{% endif %}>
+</div>

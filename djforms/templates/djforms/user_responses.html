@@ -1,0 +1,42 @@
+{% extends "djforms/layout.html" %}
+
+{% block body %}
+<div class="py-4">
+    <div id="container" class="container-fluid col-xl-6 col-lg-7 col-md-8">
+        <h2 class="mb-4">My responses</h2>
+
+        {% if page_obj.paginator.count > 0 %}
+
+        {% for form_response in page_obj %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ form_response.form.title }}</h5>
+
+                <p class="card-text">
+                    <small class="text-body-secondary">Responded at {{ form_response.created_at }}</small>
+                </p>
+
+                <div class="response-actions">
+                    <a class="btn btn-sm btn-outline-secondary stretched-link" href="{% url 'response' form_response.id %}">
+                        <i class="bi bi-ui-checks"></i>
+                        View my response
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% include 'partials/edit/backend/pagination.html' %}
+
+        {% else %}
+        <div class="alert alert-primary" role="alert">
+            No responses yet.
+        </div>
+        {% endif %}
+
+        <hr class="mt-4">
+
+        <p class="text-secondary"><small><i class="bi bi-info-circle"></i> If you have submitted a form and do not see your response here, it is possible that the form was deleted, or you may have answered as an anonymous respondent.</small></p>
+    </div>
+</div>
+{% endblock %}

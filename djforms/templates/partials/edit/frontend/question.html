@@ -1,0 +1,30 @@
+<template id="template-question">
+    <div class="question card mb-4">
+        <div class="card-header">
+            <select class="question-type-select form-select" aria-label="Question type"></select>
+        </div>
+
+        <div class="card-body">
+            <div class="mb-3">
+                <input type="text" class="question-text form-control" id="q-{{ question.order }}-text"
+                       placeholder="Question"
+                       value="{{ question.text }}"
+                       required>
+                <div class="invalid-feedback">What is the question?</div>
+            </div>
+
+            <div class="question-answer"></div>
+        </div>
+
+        <div class="card-footer card-footer d-flex justify-content-between">
+            <div class="form-check form-switch">
+                <input class="question-required-switch form-check-input" type="checkbox" role="switch" checked>
+                <label class="form-check-label">Required</label>
+            </div>
+
+            <button class="btn-remove-question btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i>
+                <span class="visually-hidden">Remove</span>
+            </button>
+        </div>
+    </div>
+</template>

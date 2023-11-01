@@ -1,0 +1,67 @@
+<h2 class="my-4">Settings</h2>
+
+<form id="settings-form">
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" role="switch" id="is-open"
+               name="is_open"
+               {% if form.settings.is_open %} checked{% endif %}>
+        <label class="form-check-label" for="is-open">
+            Accepting responses
+        </label>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" role="switch" id="authenticated-response"
+               name="authenticated_response"
+               {% if form.settings.authenticated_response %} checked{% endif %}>
+        <label class="form-check-label" for="authenticated-response">
+            Require respondents to be authenticated
+        </label>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" role="switch" id="multiple-response"
+               name="multiple_response"
+               {% if not form.settings.authenticated_response %} disabled{% endif %}
+               {% if form.settings.multiple_response %} checked{% endif %}>
+        <label class="form-check-label" for="multiple-response">
+            Allow multiple responses for authenticated respondents
+        </label>
+    </div>
+
+    <button class="my-3 btn btn-primary" id="btn-save-settings">
+        <i class="bi bi-gear"></i>
+        Save settings
+    </button>
+</form>
+
+<hr class="my-4">
+
+<h3 class="my-4">Delete form</h3>
+
+<p>Permanently deletes the form and all responses.</p>
+
+<button type="button" class="my-3 btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-form-modal">
+    <i class="bi bi-trash"></i>
+    Delete form
+</button>
+
+<div class="modal fade" id="delete-form-modal" tabindex="-1" aria-labelledby="delete-form-title" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="delete-form-title">Delete form and all responses</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Permanently delete the form and all responses?</p>
+
+                <p>This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-danger" id="btn-delete-form">Delete form and all responses</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

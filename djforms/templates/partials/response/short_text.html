@@ -1,0 +1,4 @@
+{% load answer_question %}
+<div class="mb-3">
+    <input class="form-control" type="text" aria-label="Answer" value="{{ answers|answer_question:question }}" readonly disabled>
+</div>

@@ -1,0 +1,107 @@
+<h2 class="my-4">Edit form</h2>
+
+<form id="form-form">
+    <h3 class="mb-3">Basic information</h3>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control form-control-lg" id="input-title"
+                       placeholder="Title"
+                       name="title"
+                       value="{{ form.title }}"
+                       required>
+                <label for="input-title">Title</label>
+                <div class="invalid-feedback">Please provide the form title.</div>
+            </div>
+
+            <div class="form-floating">
+                <textarea class="form-control" id="input-description" style="height: 100px"
+                          name="description">{% if form.description %}{{ form.description }}{% endif %}</textarea>
+                <label for="input-description" class="form-label">Description</label>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-3">Questions</h3>
+
+    <div id="question-container">
+        {% for question in form.questions.all|dictsort:'order' %}
+        <div class="question card mb-4">
+            <div class="card-header">
+                <select class="question-type-select form-select" aria-label="Question type"
+                        name="question_type]">
+                    {% for type in question_types %}
+                    <option value="{{ type.id }}"
+                            {% if type.id == question.type %} selected{% endif %}>
+                        {{ type.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3">
+                    <input type="text" class="question-text form-control"
+                       placeholder="Question"
+                       name="question_text"
+                       value="{{ question.text }}"
+                       required>
+                    <div class="invalid-feedback">What is the question?</div>
+                </div>
+
+                <div class="question-answer">
+                    {% if question.type == "SHORT_TEXT" %}
+                    {% include 'partials/edit/backend/short_text.html' %}
+                    {% elif question.type == "LONG_TEXT" %}
+                    {% include 'partials/edit/backend/long_text.html' %}
+                    {% elif question.type == "NUMERIC" %}
+                    {% include 'partials/edit/backend/numeric.html' %}
+                    {% elif question.type == "RADIO" %}
+                    {% include 'partials/edit/backend/radio.html' %}
+                    {% elif question.type == "CHECKBOX" %}
+                    {% include 'partials/edit/backend/checkbox.html' %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-footer d-flex justify-content-between">
+                <div class="form-check form-switch">
+                    <input class="question-required-switch form-check-input" type="checkbox" role="switch"
+                         {% if question.is_required %}checked{% endif %}>
+                    <label class="form-check-label">Required</label>
+                </div>
+
+                <button class="btn-remove-question btn btn-sm btn-outline-danger"
+                        {% if count_questions == 1 %}
+                        disabled
+                        {% endif %}>
+                    <i class="bi bi-trash"></i>
+                    <span class="visually-hidden">Remove</span>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-center mb-4">
+        <button class="btn btn-sm btn-outline-secondary" id="btn-add-question">
+            <i class="bi bi-plus-circle"></i>
+            Add question
+        </button>
+    </div>
+
+    <hr class="mb-4">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-primary" id="btn-save-form" style="width: 200px">
+            <i class="bi bi-cloud-check-fill"></i>
+            Save form
+        </button>
+
+        <a class="btn btn-outline-secondary me-3" href="{% url 'respond' form.id %}" target="_blank">
+            <i class="bi bi-eye"></i>
+            Preview
+        </a>
+    </div>
+</form>

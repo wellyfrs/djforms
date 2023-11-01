@@ -1,0 +1,40 @@
+{% extends "djforms/layout.html" %}
+{% load bootstrap_alert %}
+
+{% block body %}
+<div class="py-4">
+    <div id="container" class="container-fluid col-xl-6 col-lg-7 col-md-8">
+
+        <h2 class="mb-4">
+            {% if form_response %}
+            {{ form_response.form.title }}
+            {% else %}
+            Something's wrong
+            {% endif %}
+        </h2>
+
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="alert {{ message.tags | bootstrap_alert }}" role="alert">{{ message }}</div>
+            {% endfor %}
+        </div>
+
+        {% if form_response %}
+        <div class="mb-3 d-flex justify-content-between">
+            {% if form_response.form.settings.authenticated_response %}
+            <a class="btn btn-outline-primary" href="{% url 'response' form_response.id %}">
+                <i class="bi bi-ui-checks"></i>
+                View response
+            </a>
+            {% if form_response.form.settings.is_another_response_allowed %}
+            <a class="btn btn-outline-secondary" href="{% url 'respond' form_response.form.id %}">
+                <i class="bi bi-send"></i>
+                Submit another response
+            </a>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
